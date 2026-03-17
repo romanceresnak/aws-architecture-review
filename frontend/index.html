@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS Architecture Reviewer | Powered by Amazon Bedrock</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="8" fill="url(#logo-gradient)"/>
+            <path d="M16 8L22 14L16 20M10 14H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="32" y2="32">
+                <stop stop-color="#FF6B6B"/>
+                <stop offset="1" stop-color="#4ECDC4"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">Architecture Reviewer</span>
+        </div>
+        <div class="header-badge">Powered by Amazon Nova Pro</div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+
+      <!-- Upload Section (Initial State) -->
+      <section class="upload-section" id="upload-section">
+        <div class="section-header">
+          <h1>Analyze Your AWS Architecture</h1>
+          <p>Get instant Well-Architected Framework insights powered by AI</p>
+        </div>
+
+        <!-- Upload Zone -->
+        <div class="upload-zone" id="drop-zone">
+          <div class="upload-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+            </svg>
+          </div>
+          <h3 id="drop-title">Drop your architecture diagram</h3>
+          <p class="upload-desc">or click to browse files</p>
+          <p class="upload-formats">Supports PNG, JPG, PDF, draw.io</p>
+          <input type="file" id="file-input" accept=".png,.jpg,.jpeg,.pdf,.xml,.drawio,.webp" hidden>
+          <button class="btn-primary" id="browse-btn">Choose File</button>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h4>Instant Analysis</h4>
+            <p>AI-powered review in seconds</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🏗️</div>
+            <h4>WAF Compliance</h4>
+            <p>Well-Architected Framework assessment</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💡</div>
+            <h4>Smart Recommendations</h4>
+            <p>Actionable improvement suggestions</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h4>Detailed Scoring</h4>
+            <p>6 pillar breakdown with metrics</p>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-container hidden" id="progress-card">
+          <div class="progress-header">
+            <div class="spinner"></div>
+            <span id="progress-label">Analyzing architecture...</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-bar"></div>
+          </div>
+          <p class="progress-text" id="progress-steps">Processing diagram</p>
+        </div>
+      </section>
+
+      <!-- Report Section -->
+      <section class="report-section hidden" id="report-section">
+
+        <!-- Summary Card -->
+        <div class="summary-card">
+          <div class="summary-header">
+            <div class="risk-indicator" id="risk-badge"></div>
+            <div class="summary-content">
+              <h2>Analysis Complete</h2>
+              <p id="report-summary-text"></p>
+            </div>
+            <button class="btn-secondary" id="new-review-btn">New Review</button>
+          </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="report-grid">
+
+          <!-- Left Column -->
+          <div class="report-column">
+
+            <!-- Pillar Scores -->
+            <div class="card">
+              <h3 class="card-title">Well-Architected Pillars</h3>
+              <div class="pillars-list" id="pillars-grid"></div>
+            </div>
+
+            <!-- Detected Services -->
+            <div class="card" id="detected-services-wrap">
+              <h3 class="card-title">Detected Services</h3>
+              <div class="services-list" id="services-chips"></div>
+            </div>
+
+            <!-- Positives -->
+            <div class="card card-success" id="positives-card">
+              <h3 class="card-title">✓ Strengths</h3>
+              <ul class="list" id="positives-list"></ul>
+            </div>
+
+          </div>
+
+          <!-- Right Column -->
+          <div class="report-column">
+
+            <!-- Issues -->
+            <div class="card" id="issues-section">
+              <h3 class="card-title">Issues</h3>
+              <div class="issues-list" id="issues-grid"></div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="card" id="recs-section">
+              <h3 class="card-title">Recommendations</h3>
+              <div class="recs-list" id="recs-grid"></div>
+            </div>
+
+            <!-- WAF Risks -->
+            <div class="card">
+              <h3 class="card-title">Well-Architected Risks</h3>
+              <div class="waf-list" id="waf-list"></div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Built with Amazon Bedrock Nova Pro · Deployed on AWS with Terraform</p>
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
